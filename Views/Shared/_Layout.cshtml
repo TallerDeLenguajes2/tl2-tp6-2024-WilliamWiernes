@@ -16,7 +16,7 @@
         }
 
         .efecto-hover:hover {
-            transform: scale(1.1);
+            transform: scale(.9);
         }
     </style>
 </head>
@@ -35,12 +35,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-white efecto-hover" asp-area="" asp-controller="Producto"
+                            <a class="nav-link text-white efecto-hover" asp-controller="Producto"
                                 asp-action="Listar">Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white efecto-hover" asp-area="" asp-controller=""
-                                asp-action="">Presupuestos</a>
+                            <a class="nav-link text-white efecto-hover" asp-controller="Presupuesto"
+                                asp-action="Listar">Presupuestos</a>
                         </li>
                     </ul>
                 </div>

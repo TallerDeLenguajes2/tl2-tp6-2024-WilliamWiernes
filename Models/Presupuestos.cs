@@ -5,12 +5,14 @@ public class Presupuesto
     private string fechaCreacion;
     private List<PresupuestoDetalle> listaDetalles;
 
-    public Presupuesto(int idPresupuesto, string nombreDestinatario, string fechaCreacion)
+    public Presupuesto() { }
+
+    public Presupuesto(int idPresupuesto, string nombreDestinatario, string fechaCreacion, List<PresupuestoDetalle> listaDetalles)
     {
         this.idPresupuesto = idPresupuesto;
         this.nombreDestinatario = nombreDestinatario;
         this.fechaCreacion = fechaCreacion;
-        listaDetalles = new List<PresupuestoDetalle>();
+        this.listaDetalles = listaDetalles;
     }
 
     public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }

@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Crear Presupuesto";
+}
+
+@model Presupuesto
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Presupuesto" asp-action="Crear" autocomplete="off" class="card bg-dark border-secondary p-4"
+        style="max-width: 500px; width: 100%;">
+        <h2 class="text-center text-light">Crear Presupuesto</h2>
+        <div class="mb-3">
+            <label for="nombreDestinatario" class="form-label text-light">nombreDestinatario</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="nombreDestinatario"
+                asp-for="NombreDestinatario" required>
+        </div>
+        <div class="mb-3">
+            <label for="fechaCreacion" class="form-label text-light">fechaCreacion</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="fechaCreacion"
+                asp-for="FechaCreacion" required readonly value="@DateTime.Now.ToString("yyyy-MM-dd")">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success w-50 efecto-hover">
+                <i class="far fa-plus"></i>
+            </button>
+        </div>
+    </form>
+</div>

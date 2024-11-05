@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = $"Eliminar Presupuesto";
+}
+
+@model Presupuesto
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Presupuesto" asp-action="EliminarPresupuesto" autocomplete="off" class="card bg-dark border-secondary p-4"
+        style="max-width: 500px; width: 100%;">
+        <input type="hidden" asp-for="IdPresupuesto">
+        <h2 class="text-center text-light">Eliminar Presupuesto</h2>
+        <div class="mb-3 text-center text-white">
+            <p>¿Elimar presupuesto con id: @Model.IdPresupuesto?</p>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger w-50 efecto-hover">
+                <i class="far fa-trash"></i>
+            </button>
+        </div>
+    </form>
+</div>

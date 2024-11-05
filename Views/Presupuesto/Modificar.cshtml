@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Modificar Presupuesto";
+}
+
+@model Presupuesto
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Presupuesto" asp-action="Modificar" autocomplete="off"
+        class="card bg-dark border-secondary p-4" style="max-width: 800px; width: 100%;">
+        <h2 class="text-center text-light">Modificar Presupuesto</h2>
+        <div class="mb-3 text-muted">
+            <label for="idPresupuesto" class="form-label">idPresupuesto</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary text-muted" id="idPresupuesto"
+                asp-for="IdPresupuesto" required readonly value="@Model.IdPresupuesto">
+        </div>
+        <div class="mb-3">
+            <label for="nombreDestinatario" class="form-label text-light">nombreDestinatario</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="nombreDestinatario"
+                asp-for="NombreDestinatario" required value="@Model.NombreDestinatario">
+        </div>
+        <div class="mb-3">
+            <label for="fechaCreacion" class="form-label text-light">fechaCreacion</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="fechaCreacion"
+                asp-for="FechaCreacion" required value="@Model.FechaCreacion">
+        </div>
+
+        <table class="table table-responsive table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">idProducto</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in Model.ListaDetalles)
+                {
+                    <tr>
+                        <td>@detalle.Producto.IdProducto</td>
+                        <td>@detalle.Producto.Descripcion</td>
+                        <td>$@detalle.Producto.Precio</td>
+                        <td>@detalle.Cantidad</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-center mb-3">
+            <a asp-controller="Presupuesto" asp-action="ModificarAgregarProducto"
+                asp-route-idPresupuesto="@Model.IdPresupuesto" class="btn btn-success efecto-hover">
+                Agregar Producto&nbsp;&nbsp;<i class="far fa-plus"></i>
+            </a>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-info w-50 efecto-hover">
+                <i class="far fa-pen"></i>
+            </button>
+        </div>
+    </form>
+</div>
