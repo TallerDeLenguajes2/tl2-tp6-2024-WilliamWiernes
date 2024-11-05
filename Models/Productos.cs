@@ -4,6 +4,8 @@ public class Producto
     private string descripcion;
     private int precio;
 
+    public Producto() { }
+
     public Producto(int idProducto, string descripcion, int precio)
     {
         this.idProducto = idProducto;

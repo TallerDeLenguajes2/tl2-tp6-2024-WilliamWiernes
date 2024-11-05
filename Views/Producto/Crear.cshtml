@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Crear Producto";
+}
+
+@model Producto
+
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Producto" asp-action="Crear" autocomplete="off" class="card bg-dark border-secondary p-4"
+        style="max-width: 500px; width: 100%;">
+        <h2 class="text-center text-light">Crear Producto</h2>
+        <div class="mb-3">
+            <label for="descripcionProducto" class="form-label text-light">Descripción</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="descripcionProducto"
+                asp-for="Descripcion" required>
+        </div>
+        <div class="mb-4">
+            <label for="precioProducto" class="form-label text-light">Precio</label>
+            <input type="number" class="form-control bg-dark text-light border-secondary" id="precioProducto"
+                asp-for="Precio" required min="0" step="1">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success w-50 efecto-hover">
+                <i class="far fa-plus"></i>
+            </button>
+        </div>
+    </form>
+</div>
