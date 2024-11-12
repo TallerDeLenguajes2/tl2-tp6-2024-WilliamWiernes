@@ -2,7 +2,7 @@
     ViewData["Title"] = "Agregar Producto";
 }
 
-@model int
+@model ProductoAltaViewModel
 
 <div class="mb-3 d-flex justify-content-center">
     <form asp-controller="Presupuesto" asp-action="ModificarAgregarProducto" autocomplete="off"
@@ -11,17 +11,21 @@
         <div class="mb-3">
             <label for="idPresupuesto" class="form-label text-muted">idPresupuesto</label>
             <input type="number" class="form-control bg-dark text-light border-secondary text-muted" id="idPresupuesto"
-                name="idPresupuesto" readonly required min="0" step="1" value="@Model" />
+                name="idPresupuesto" required readonly value="@Model.IdPresupuesto">
         </div>
         <div class="mb-3">
-            <label for="idProducto" class="form-label text-light">idProducto</label>
-            <input type="number" class="form-control bg-dark text-light border-secondary" id="idProducto"
-                name="idProducto" required min="1" step="1" />
+            <label for="idProducto" class="form-label text-light">Producto</label>
+            <select name="idProducto" id="idProducto" class="form-select bg-dark text-light border-secondary" required>
+                @foreach (var producto in Model.ListaProductos)
+                {
+                    <option value="@producto.IdProducto">@producto.Descripcion</option> 
+                }
+            </select>
         </div>
         <div class="mb-3">
             <label for="cantidad" class="form-label text-light">Cantidad</label>
             <input type="number" class="form-control bg-dark text-light border-secondary" id="cantidad" name="cantidad"
-                required min="1" step="1" />
+                required min="1" step="1">
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-success w-50 efecto-hover">

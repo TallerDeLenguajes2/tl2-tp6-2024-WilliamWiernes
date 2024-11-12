@@ -50,8 +50,7 @@ public class ClienteRepository
 
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
-            var consulta = @"SELECT idCliente, Nombre, Email, Telefono
-                            FROM Clientes";
+            var consulta = @"SELECT * FROM Clientes";
 
             conexion.Open();
 

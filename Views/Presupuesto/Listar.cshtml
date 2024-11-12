@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th scope="col">idPresupuesto</th>
-            <th scope="col">nombreDestinatario</th>
+            <th scope="col">cliente</th>
             <th scope="col">fechaCreación</th>
             <th scope="col" colspan="2">Acciones</th>
         </tr>
@@ -19,7 +19,7 @@
         {
             <tr>
                 <td>@presupuesto.IdPresupuesto</td>
-                <td>@presupuesto.NombreDestinatario</td>
+                <td>@presupuesto.Cliente.NombreCliente</td>
                 <td>@presupuesto.FechaCreacion</td>
                 <td>
                     <a asp-action="Modificar" asp-route-idPresupuesto="@presupuesto.IdPresupuesto">

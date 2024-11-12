@@ -8,13 +8,13 @@ public class PresupuestoRepository
     {
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
-            var consulta = @"INSERT INTO Presupuestos (NombreDestinatario, FechaCreacion) 
-                            VALUES (@nombreDestinatario, @fechaCreacion)";
+            var consulta = @"INSERT INTO Presupuestos (idCliente, FechaCreacion) 
+                            VALUES (@idCliente, @fechaCreacion)";
 
             conexion.Open();
 
             var comando = new SqliteCommand(consulta, conexion);
-            comando.Parameters.Add(new SqliteParameter("@nombreDestinatario", nuevoPresupuesto.NombreDestinatario));
+            comando.Parameters.Add(new SqliteParameter("@idCliente", nuevoPresupuesto.Cliente.IdCliente));
             comando.Parameters.Add(new SqliteParameter("@fechaCreacion", nuevoPresupuesto.FechaCreacion));
             comando.ExecuteNonQuery();
 
@@ -52,12 +52,13 @@ public class PresupuestoRepository
     public Presupuesto ObtenerDetallesPresupuesto(int idPresupuesto)
     {
         Presupuesto presupuesto = null;
+        Cliente cliente = null;
 
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"SELECT 
                                 Presupuestos.idPresupuesto, 
-                                Presupuestos.nombreDestinatario, 
+                                Presupuestos.idCliente, 
                                 Presupuestos.fechaCreacion, 
                                 Productos.idProducto, 
                                 Productos.Descripcion, 
@@ -84,9 +85,11 @@ public class PresupuestoRepository
                 {
                     if (presupuesto == null)
                     {
+                        cliente = new ClienteRepository().ObtenerCliente(Convert.ToInt32(lectorDatos["idCliente"]));
+
                         presupuesto = new Presupuesto(
                             Convert.ToInt32(lectorDatos["idPresupuesto"]),
-                            Convert.ToString(lectorDatos["nombreDestinatario"]),
+                            cliente,
                             Convert.ToString(lectorDatos["fechaCreacion"]),
                             new List<PresupuestoDetalle>()
                         );
@@ -113,7 +116,7 @@ public class PresupuestoRepository
         {
             presupuesto.ListaDetalles = new List<PresupuestoDetalle>();
         }
-
+        
         return presupuesto;
     }
 
@@ -160,19 +163,19 @@ public class PresupuestoRepository
     }
 
 
-    public void ModificarPresupuesto(int id, Presupuesto modPresupuesto)
+    public void ModificarPresupuesto(int idPresupuesto, Presupuesto modPresupuesto)
     {
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"UPDATE Presupuestos
-                            SET NombreDestinatario = @nombreDestinatario, FechaCreacion = @fechaCreacion
-                            WHERE idPresupuesto = @id";
+                            SET idCliente = @idCliente, FechaCreacion = @fechaCreacion
+                            WHERE idPresupuesto = @idPresupuesto";
 
             conexion.Open();
 
             var comando = new SqliteCommand(consulta, conexion);
-            comando.Parameters.Add(new SqliteParameter("@id", id));
-            comando.Parameters.Add(new SqliteParameter("@nombreDestinatario", modPresupuesto.NombreDestinatario));
+            comando.Parameters.Add(new SqliteParameter("@idPresupuesto", idPresupuesto));
+            comando.Parameters.Add(new SqliteParameter("@idCliente", modPresupuesto.Cliente.IdCliente));
             comando.Parameters.Add(new SqliteParameter("@fechaCreacion", modPresupuesto.FechaCreacion));
             comando.ExecuteNonQuery();
 

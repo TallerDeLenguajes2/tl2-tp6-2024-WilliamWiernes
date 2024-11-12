@@ -4,11 +4,13 @@ using tl2_tp6_2024_WilliamWiernes.Models;
 public class PresupuestoController : Controller
 {
     private PresupuestoRepository presupuestoRepository;
+    private ClienteRepository clienteRepository;
     private ILogger<PresupuestoController> _logger;
 
     public PresupuestoController(ILogger<PresupuestoController> logger)
     {
         presupuestoRepository = new PresupuestoRepository();
+        clienteRepository = new ClienteRepository();
         _logger = logger;
     }
 
@@ -21,12 +23,19 @@ public class PresupuestoController : Controller
     [HttpGet]
     public ActionResult Crear()
     {
-        return View();
+        var clienteRepository = new ClienteRepository();
+        var listaClientesViewModel = new PresupuestoViewModel(clienteRepository.Listar());
+
+        return View(listaClientesViewModel);
     }
 
     [HttpPost]
-    public ActionResult Crear(Presupuesto nuevoPresupuesto)
+    public ActionResult Crear(int idCliente)
     {
+        var cliente = clienteRepository.ObtenerCliente(idCliente);
+        var listaDetalles = new List<PresupuestoDetalle>();
+        var nuevoPresupuesto = new Presupuesto(1, cliente, DateTime.Now.ToString("yyyy-MM-dd"), listaDetalles);
+
         presupuestoRepository.CrearPresupuesto(nuevoPresupuesto);
         return RedirectToAction("Listar");
     }
@@ -47,7 +56,10 @@ public class PresupuestoController : Controller
     [HttpGet]
     public ActionResult ModificarAgregarProducto(int idPresupuesto)
     {
-        return View(idPresupuesto);
+        var productoRepository = new ProductoRepository();
+        var listaProductosViewModel = new ProductoAltaViewModel(idPresupuesto, productoRepository.ListarProductos());
+
+        return View(listaProductosViewModel);
     }
 
     [HttpPost]
