@@ -1,22 +1,22 @@
 public class Presupuesto
 {
     private int idPresupuesto;
-    private string nombreDestinatario;
+    private Cliente cliente;
     private string fechaCreacion;
     private List<PresupuestoDetalle> listaDetalles;
 
     public Presupuesto() { }
 
-    public Presupuesto(int idPresupuesto, string nombreDestinatario, string fechaCreacion, List<PresupuestoDetalle> listaDetalles)
+    public Presupuesto(int idPresupuesto, Cliente cliente, string fechaCreacion, List<PresupuestoDetalle> listaDetalles)
     {
         this.idPresupuesto = idPresupuesto;
-        this.nombreDestinatario = nombreDestinatario;
+        this.Cliente = cliente;
         this.fechaCreacion = fechaCreacion;
         this.listaDetalles = listaDetalles;
     }
 
     public int IdPresupuesto { get => idPresupuesto; set => idPresupuesto = value; }
-    public string NombreDestinatario { get => nombreDestinatario; set => nombreDestinatario = value; }
+    public Cliente Cliente { get => cliente; set => cliente = value; }
     public string FechaCreacion { get => fechaCreacion; set => fechaCreacion = value; }
     public List<PresupuestoDetalle> ListaDetalles { get => listaDetalles; set => listaDetalles = value; }
 

@@ -18,6 +18,22 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = c:\Users\USUARIO\Desktop\FACET\Taller De Lenguajes II\Repositorios\tl2-tp6-2024-WilliamWiernes
 build_property._RazorSourceGeneratorDebug = 
 
+[c:/Users/USUARIO/Desktop/FACET/Taller De Lenguajes II/Repositorios/tl2-tp6-2024-WilliamWiernes/Views/Cliente/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/USUARIO/Desktop/FACET/Taller De Lenguajes II/Repositorios/tl2-tp6-2024-WilliamWiernes/Views/Cliente/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxFbGltaW5hci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/USUARIO/Desktop/FACET/Taller De Lenguajes II/Repositorios/tl2-tp6-2024-WilliamWiernes/Views/Cliente/Listar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxMaXN0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/USUARIO/Desktop/FACET/Taller De Lenguajes II/Repositorios/tl2-tp6-2024-WilliamWiernes/Views/Cliente/Modificar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZVxNb2RpZmljYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [c:/Users/USUARIO/Desktop/FACET/Taller De Lenguajes II/Repositorios/tl2-tp6-2024-WilliamWiernes/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = $"Modificar Cliente";
+}
+
+@model Cliente
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Cliente" asp-action="Modificar" autocomplete="off" class="card bg-dark border-secondary p-4"
+        style="max-width: 500px; width: 100%;">
+        <input type="hidden" asp-for="IdCliente">
+        <h2 class="text-center text-light">Modificar Cliente</h2>
+        <div class="mb-3">
+            <label for="idCliente" class="form-label text-muted">idCliente</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="idCliente"
+                asp-for="IdCliente" value="@Model.IdCliente" required readonly>
+        </div>
+        <div class="mb-3">
+            <label for="nombreCliente" class="form-label text-light">Nombre</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="nombreCliente"
+                asp-for="NombreCliente" value="@Model.NombreCliente" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label text-light">Email</label>
+            <input type="email" class="form-control bg-dark text-light border-secondary" id="email"
+                asp-for="Email" value="@Model.Email" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label text-light">Telefono</label>
+            <input type="tel" class="form-control bg-dark text-light border-secondary" id="telefono"
+                asp-for="Telefono" value="@Model.Telefono" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-info w-50 efecto-hover">
+                <i class="far fa-pen"></i>
+            </button>
+        </div>
+    </form>
+</div>

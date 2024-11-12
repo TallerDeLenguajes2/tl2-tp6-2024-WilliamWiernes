@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = "Lista de Clientes";
+}
+
+@model List<Cliente>
+
+<table class="table table-responsive table-dark table-striped">
+    <thead>
+        <tr>
+            <th scope="col">idCliente</th>
+            <th scope="col">NombreCliente</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefono</th>
+            <th scope="col" colspan="2">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var cliente in Model)
+        {
+            <tr>
+                <td>@cliente.IdCliente</td>
+                <td>@cliente.NombreCliente</td>
+                <td>@cliente.Email</td>
+                <td>@cliente.Telefono</td>
+                <td>
+                    <a asp-action="Modificar" asp-route-idCliente="@cliente.IdCliente">
+                        <button type="button" class="btn btn-sm m-0 p-0">
+                            <i class="far fa-pen text-info efecto-hover"></i>
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Eliminar" asp-route-idCliente="@cliente.IdCliente">
+                        <button type="button" class="btn btn-sm m-0 p-0">
+                            <i class="far fa-trash text-danger efecto-hover"></i>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-center mb-3">
+    <a asp-action="Crear">
+        <button type="button" class="btn btn-dark efecto-hover">
+            Crear Cliente&nbsp;&nbsp;<i class="far fa-plus text-success"></i>
+        </button>
+    </a>
+</div>
