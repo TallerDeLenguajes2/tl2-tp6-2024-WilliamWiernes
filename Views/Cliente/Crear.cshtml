@@ -2,30 +2,30 @@
     ViewData["Title"] = "Crear Cliente";
 }
 
-@model Cliente
+@model ClienteViewModel
 
 <div class="mb-3 d-flex justify-content-center">
     <form asp-controller="Cliente" asp-action="Crear" autocomplete="off" class="card bg-dark border-secondary p-4"
         style="max-width: 500px; width: 100%;">
-        <input type="hidden" asp-for="IdCliente">
         <h2 class="text-center text-light">Crear Cliente</h2>
         <div class="mb-3">
             <label for="NombreCliente" class="form-label text-light">Nombre</label>
-            <input type="text" class="form-control" id="NombreCliente" asp-for="NombreCliente" placeholder="Nombre"
-                required>
+            <input type="text" class="form-control" id="NombreCliente" asp-for="NombreCliente" required>
         </div>
         <div class="mb-3">
             <label for="Email" class="form-label text-light">Email</label>
-            <input type="email" class="form-control" id="Email" asp-for="Email" placeholder="Email" required>
+            <input type="email" class="form-control" id="Email" asp-for="Email" required>
         </div>
         <div class="mb-3">
             <label for="Telefono" class="form-label text-light">Telefono</label>
-            <input type="tel" class="form-control" id="Telefono" asp-for="Telefono" placeholder="Telefono" required>
+            <input type="tel" class="form-control" id="Telefono" asp-for="Telefono" required>
         </div>
-        <div class="text-center">
+        <div class=" text-center">
             <button type="submit" class="btn btn-success w-50 efecto-hover">
                 <i class="far fa-plus"></i>
             </button>
         </div>
     </form>
 </div>
+
+@section Scripts {<partial name="_ValidationScriptsPartial" />}

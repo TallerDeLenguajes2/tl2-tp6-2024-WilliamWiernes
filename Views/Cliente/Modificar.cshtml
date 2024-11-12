@@ -2,7 +2,7 @@
     ViewData["Title"] = $"Modificar Cliente";
 }
 
-@model Cliente
+@model ClienteViewModel
 
 <div class="mb-3 d-flex justify-content-center">
     <form asp-controller="Cliente" asp-action="Modificar" autocomplete="off" class="card bg-dark border-secondary p-4"
@@ -36,3 +36,5 @@
         </div>
     </form>
 </div>
+
+ @section Scripts{<partial name="_ValidationScriptsPartial"/>}

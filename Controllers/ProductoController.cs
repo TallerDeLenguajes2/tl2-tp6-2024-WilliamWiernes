@@ -36,6 +36,8 @@ public class ProductoController : Controller
     [HttpPost]
     public ActionResult Crear(ProductoViewModel nuevoProductoViewModel)
     {
+        if(!ModelState.IsValid) return RedirectToAction("Listar");
+
         var nuevoProducto = new Producto(0, nuevoProductoViewModel.Descripcion, nuevoProductoViewModel.Precio);
         productoRepository.CrearProducto(nuevoProducto);
 
@@ -54,6 +56,8 @@ public class ProductoController : Controller
     [HttpPost]
     public ActionResult Modificar(ProductoViewModel modProductoViewModel)
     {
+        if(!ModelState.IsValid) return RedirectToAction("Listar");
+
         var modProducto = new Producto(modProductoViewModel.IdProducto, modProductoViewModel.Descripcion, modProductoViewModel.Precio);
         productoRepository.ModificarProducto(modProducto.IdProducto, modProducto);
 
