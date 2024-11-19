@@ -1,84 +1,83 @@
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp6_2024_WilliamWiernes.Models;
 
 public class PresupuestoController : Controller
 {
-    private PresupuestoRepository presupuestoRepository;
-    private ClienteRepository clienteRepository;
+    private IPresupuestoRepository _presupuestoRepository;
+    private IClienteRepository _clienteRepository;
+    private IProductoRepository _productoRepository;
     private ILogger<PresupuestoController> _logger;
 
-    public PresupuestoController(ILogger<PresupuestoController> logger)
+    public PresupuestoController(ILogger<PresupuestoController> logger, IPresupuestoRepository presupuestoRepository, IClienteRepository clienteRepository, IProductoRepository productoRepository)
     {
-        presupuestoRepository = new PresupuestoRepository();
-        clienteRepository = new ClienteRepository();
+        _presupuestoRepository = presupuestoRepository;
+        _clienteRepository = clienteRepository;
+        _productoRepository = productoRepository;
         _logger = logger;
     }
 
     [HttpGet]
-    public ActionResult Listar()
+    public IActionResult Listar()
     {
-        return View(presupuestoRepository.ListarPresupuestos());
+        return View(_presupuestoRepository.ListarPresupuestos());
     }
 
     [HttpGet]
-    public ActionResult Crear()
+    public IActionResult Crear()
     {
-        var clienteRepository = new ClienteRepository();
-        var listaClientesViewModel = new PresupuestoViewModel(clienteRepository.Listar());
+        var listaClientesViewModel = new PresupuestoViewModel(_clienteRepository.Listar());
 
         return View(listaClientesViewModel);
     }
 
     [HttpPost]
-    public ActionResult Crear(int idCliente)
+    public IActionResult Crear(int idCliente)
     {
-        var cliente = clienteRepository.ObtenerCliente(idCliente);
+        var cliente = _clienteRepository.ObtenerCliente(idCliente);
         var listaDetalles = new List<PresupuestoDetalle>();
         var nuevoPresupuesto = new Presupuesto(1, cliente, DateTime.Now.ToString("yyyy-MM-dd"), listaDetalles);
 
-        presupuestoRepository.CrearPresupuesto(nuevoPresupuesto);
+        _presupuestoRepository.CrearPresupuesto(nuevoPresupuesto);
         return RedirectToAction("Listar");
     }
 
     [HttpGet]
-    public ActionResult Modificar(int idPresupuesto)
+    public IActionResult Modificar(int idPresupuesto)
     {
-        return View(presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
     }
 
     [HttpPost]
-    public ActionResult Modificar(Presupuesto modPresupuesto)
+    public IActionResult Modificar(Presupuesto modPresupuesto)
     {
-        presupuestoRepository.ModificarPresupuesto(modPresupuesto.IdPresupuesto, modPresupuesto);
+        _presupuestoRepository.ModificarPresupuesto(modPresupuesto.IdPresupuesto, modPresupuesto);
         return RedirectToAction("Listar");
     }
     
     [HttpGet]
-    public ActionResult ModificarAgregarProducto(int idPresupuesto)
+    public IActionResult ModificarAgregarProducto(int idPresupuesto)
     {
-        var productoRepository = new ProductoRepository();
-        var listaProductosViewModel = new ProductoAltaViewModel(idPresupuesto, productoRepository.ListarProductos());
+        var listaProductosViewModel = new ProductoAltaViewModel(idPresupuesto, _productoRepository.ListarProductos());
 
         return View(listaProductosViewModel);
     }
 
     [HttpPost]
-    public ActionResult ModificarAgregarProducto(int idPresupuesto, int idProducto, int cantidad)
+    public IActionResult ModificarAgregarProducto(int idPresupuesto, int idProducto, int cantidad)
     {
-        presupuestoRepository.AgregarPresupuestoDetalle(idPresupuesto, idProducto, cantidad);
+        _presupuestoRepository.AgregarPresupuestoDetalle(idPresupuesto, idProducto, cantidad);
         return RedirectToAction("Listar");
     }
 
     [HttpGet]
-    public ActionResult Eliminar(int idPresupuesto)
+    public IActionResult Eliminar(int idPresupuesto)
     {
-        return View(presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
     }
 
     [HttpPost]
-    public ActionResult EliminarPresupuesto(int idPresupuesto)
+    public IActionResult EliminarPresupuesto(int idPresupuesto)
     {
-        presupuestoRepository.EliminarPresupuesto(idPresupuesto);
+        _presupuestoRepository.EliminarPresupuesto(idPresupuesto);
         return RedirectToAction("Listar");
     }
 }

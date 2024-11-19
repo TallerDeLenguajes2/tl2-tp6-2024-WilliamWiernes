@@ -1,21 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
-using tl2_tp6_2024_WilliamWiernes.Controllers;
 
 public class ClienteController : Controller
 {
-    private ClienteRepository clienteRepository;
+    private IClienteRepository _clienteRepository;
     private ILogger<ClienteController> _logger;
 
-    public ClienteController(ILogger<ClienteController> logger)
+    public ClienteController(ILogger<ClienteController> logger, IClienteRepository clienteRepository)
     {
-        clienteRepository = new ClienteRepository();
+        _clienteRepository = clienteRepository;
         _logger = logger;
     }
 
     [HttpGet]
-    public ActionResult Listar()
+    public IActionResult Listar()
     {
-        var listaClientes = clienteRepository.Listar();
+        var listaClientes = _clienteRepository.Listar();
         var listaClientesViewModel = new List<ClienteViewModel>();
 
         foreach (var cliente in listaClientes)
@@ -28,55 +27,55 @@ public class ClienteController : Controller
     }
 
     [HttpGet]
-    public ActionResult Crear()
+    public IActionResult Crear()
     {
         return View();
     }
 
     [HttpPost]
-    public ActionResult Crear(ClienteViewModel nuevoClienteViewModel)
+    public IActionResult Crear(ClienteViewModel nuevoClienteViewModel)
     {
         if (!ModelState.IsValid) return RedirectToAction("Listar");
 
         var nuevoCliente = new Cliente(0, nuevoClienteViewModel.NombreCliente, nuevoClienteViewModel.Email, nuevoClienteViewModel.Telefono);
-        clienteRepository.CrearCliente(nuevoCliente);
+        _clienteRepository.CrearCliente(nuevoCliente);
 
         return RedirectToAction("Listar");
     }
 
     [HttpGet]
-    public ActionResult Modificar(int idCliente)
+    public IActionResult Modificar(int idCliente)
     {
-        var cliente = clienteRepository.ObtenerCliente(idCliente);
+        var cliente = _clienteRepository.ObtenerCliente(idCliente);
         var clienteViewModel = new ClienteViewModel(cliente.IdCliente, cliente.NombreCliente, cliente.Email, cliente.Telefono);
 
         return View(clienteViewModel);
     }
 
     [HttpPost]
-    public ActionResult Modificar(ClienteViewModel modClienteViewModel)
+    public IActionResult Modificar(ClienteViewModel modClienteViewModel)
     {
         if(!ModelState.IsValid) return RedirectToAction("Listar");
 
         var modCliente = new Cliente(modClienteViewModel.IdCliente, modClienteViewModel.NombreCliente, modClienteViewModel.Email, modClienteViewModel.Telefono);
-        clienteRepository.ModificarCliente(modCliente.IdCliente, modCliente);
+        _clienteRepository.ModificarCliente(modCliente.IdCliente, modCliente);
 
         return RedirectToAction("Listar");
     }
 
     [HttpGet]
-    public ActionResult Eliminar(int idCliente)
+    public IActionResult Eliminar(int idCliente)
     {
-        var cliente = clienteRepository.ObtenerCliente(idCliente);
+        var cliente = _clienteRepository.ObtenerCliente(idCliente);
         var clienteViewModel = new ClienteViewModel(cliente.IdCliente, cliente.NombreCliente, cliente.Email, cliente.Telefono);
 
         return View(clienteViewModel);
     }
 
     [HttpPost]
-    public ActionResult EliminarCliente(int idCliente)
+    public IActionResult EliminarCliente(int idCliente)
     {
-        clienteRepository.Eliminar(idCliente);
+        _clienteRepository.Eliminar(idCliente);
 
         return RedirectToAction("Listar");
     }

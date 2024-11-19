@@ -1,6 +1,6 @@
 using Microsoft.Data.Sqlite;
 
-public class ClienteRepository
+public class ClienteRepository : IClienteRepository
 {
     private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
 

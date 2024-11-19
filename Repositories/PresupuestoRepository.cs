@@ -1,6 +1,6 @@
 using Microsoft.Data.Sqlite;
 
-public class PresupuestoRepository
+public class PresupuestoRepository : IPresupuestoRepository
 {
     private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
 
@@ -161,7 +161,6 @@ public class PresupuestoRepository
             conexion.Close();
         }
     }
-
 
     public void ModificarPresupuesto(int idPresupuesto, Presupuesto modPresupuesto)
     {
