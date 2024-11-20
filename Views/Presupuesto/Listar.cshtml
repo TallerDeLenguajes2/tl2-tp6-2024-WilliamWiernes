@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Lista de Presupuestos";
+    var RolUsuario = Context.Session.GetString("Rol");
 }
 
 @model List<Presupuesto>
@@ -10,7 +11,10 @@
             <th scope="col">idPresupuesto</th>
             <th scope="col">cliente</th>
             <th scope="col">fechaCreación</th>
-            <th scope="col" colspan="2">Acciones</th>
+            @if (RolUsuario == Rol.Administrador.ToString())
+            {
+                <th scope="col" colspan="2">Acciones</th>
+            }
         </tr>
     </thead>
 
@@ -21,20 +25,23 @@
                 <td>@presupuesto.IdPresupuesto</td>
                 <td>@presupuesto.Cliente.NombreCliente</td>
                 <td>@presupuesto.FechaCreacion</td>
-                <td>
-                    <a asp-action="Modificar" asp-route-idPresupuesto="@presupuesto.IdPresupuesto">
-                        <button type="button" class="btn btn-sm m-0 p-0">
-                            <i class="far fa-pen text-info efecto-hover"></i>
-                        </button>
-                    </a>
-                </td>
-                <td>
-                    <a asp-action="Eliminar" asp-route-idPresupuesto="@presupuesto.IdPresupuesto">
-                        <button type="button" class="btn btn-sm m-0 p-0">
-                            <i class="far fa-trash text-danger efecto-hover"></i>
-                        </button>
-                    </a>
-                </td>
+                @if (RolUsuario == Rol.Administrador.ToString())
+                {
+                    <td>
+                        <a asp-action="Modificar" asp-route-idPresupuesto="@presupuesto.IdPresupuesto">
+                            <button type="button" class="btn btn-sm m-0 p-0">
+                                <i class="far fa-pen text-info efecto-hover"></i>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Eliminar" asp-route-idPresupuesto="@presupuesto.IdPresupuesto">
+                            <button type="button" class="btn btn-sm m-0 p-0">
+                                <i class="far fa-trash text-danger efecto-hover"></i>
+                            </button>
+                        </a>
+                    </td>
+                }
             </tr>
 
             <tr>
@@ -66,10 +73,13 @@
     </tbody>
 </table>
 
-<div class="text-center mb-3">
-    <a asp-action="Crear">
-        <button type="button" class="btn btn-dark efecto-hover">
-            Crear Presupuesto&nbsp;&nbsp;<i class="far fa-plus text-success efecto-hover"></i>
-        </button>
-    </a>
-</div>
+@if (RolUsuario == Rol.Administrador.ToString())
+{
+    <div class="text-center mb-3">
+        <a asp-action="Crear">
+            <button type="button" class="btn btn-dark efecto-hover">
+                Crear Presupuesto&nbsp;&nbsp;<i class="far fa-plus text-success efecto-hover"></i>
+            </button>
+        </a>
+    </div>
+}

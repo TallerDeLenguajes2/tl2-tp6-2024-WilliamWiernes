@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Formulario Login";
+}
+
+@model UsuarioViewModel
+
+<div class="mb-3 d-flex justify-content-center">
+    <form asp-controller="Usuario" asp-action="Login" autocomplete="off"
+        class="card bg-dark border-secondary p-4" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center text-light">Iniciar Sesión</h2>
+        <div class="mb-3">
+            <label for="nombreUsuario" class="form-label text-light">NombreUsuario</label>
+            <input type="text" class="form-control bg-dark text-light border-secondary" id="nombreUsuario"
+                asp-for="NombreUsuario" required>
+        </div>
+        <div class="mb-3">
+            <label for="contraseña" class="form-label text-light">Contraseña</label>
+            <input type="password" class="form-control bg-dark text-light border-secondary" id="contraseña"
+                asp-for="Contraseña" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success w-50 efecto-hover">
+                <i class="far fa-sign-in"></i>
+            </button>
+        </div>
+    </form>
+</div>
+
+ @section Scripts{<partial name="_ValidationScriptsPartial"/>}

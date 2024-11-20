@@ -1,10 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var NombreUsuario = Context.Session.GetString("NombreUsuario");
+    var RolUsuario = Context.Session.GetString("Rol");
+}
+
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] | TLII TP6</title>
+    <title>@ViewData["Title"] | TLII TP8</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tl2_tp6_2024_WilliamWiernes.styles.css" asp-append-version="true" />
@@ -26,7 +31,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <div class="navbar-brand">
-                    tl2_tp6_2024_WilliamWiernes
+                    tl2_tp8_2024_WilliamWiernes
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,18 +39,32 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white efecto-hover" asp-controller="Producto"
-                                asp-action="Listar">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white efecto-hover" asp-controller="Presupuesto"
-                                asp-action="Listar">Presupuestos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white efecto-hover" asp-controller="Cliente"
-                                asp-action="Listar">Clientes</a>
-                        </li>
+                        @if (RolUsuario == Rol.Administrador.ToString() || RolUsuario == Rol.Cliente.ToString())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white efecto-hover" asp-controller="Producto"
+                                    asp-action="Listar">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white efecto-hover" asp-controller="Presupuesto"
+                                    asp-action="Listar">Presupuestos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white efecto-hover" asp-controller="Cliente"
+                                    asp-action="Listar">Clientes</a>
+                            </li>
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link text-white fw-bold efecto-hover" asp-controller="Usuario"
+                                    asp-action="Logout">@NombreUsuario | Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white efecto-hover" asp-controller="Usuario"
+                                    asp-action="FormularioLogin">Iniciar Sesión</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
