@@ -2,14 +2,19 @@ using Microsoft.Data.Sqlite;
 
 public class PresupuestoRepository : IPresupuestoRepository
 {
-    private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public PresupuestoRepository(string cadenaConexion)
+    {
+        _cadenaConexion = cadenaConexion;
+    }
 
     public void CrearPresupuesto(Presupuesto nuevoPresupuesto)
     {
         if (nuevoPresupuesto == null)
             throw new Exception("El presupuesto no puede ser nulo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"INSERT INTO Presupuestos (idCliente, FechaCreacion) 
                             VALUES (@idCliente, @fechaCreacion)";
@@ -29,7 +34,7 @@ public class PresupuestoRepository : IPresupuestoRepository
     {
         var listaPresupuestos = new List<Presupuesto>();
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = "SELECT * FROM Presupuestos";
 
@@ -63,7 +68,7 @@ public class PresupuestoRepository : IPresupuestoRepository
         Presupuesto presupuesto = null;
         Cliente cliente = null;
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"SELECT 
                                 Presupuestos.idPresupuesto, 
@@ -94,7 +99,7 @@ public class PresupuestoRepository : IPresupuestoRepository
                 {
                     if (presupuesto == null)
                     {
-                        cliente = new ClienteRepository().ObtenerCliente(Convert.ToInt32(lectorDatos["idCliente"]));
+                        cliente = new ClienteRepository(_cadenaConexion).ObtenerCliente(Convert.ToInt32(lectorDatos["idCliente"]));
 
                         presupuesto = new Presupuesto(
                             Convert.ToInt32(lectorDatos["idPresupuesto"]),
@@ -137,7 +142,7 @@ public class PresupuestoRepository : IPresupuestoRepository
         if (idPresupuesto < 0 || idProducto < 0 || cantidad < 0)
             throw new Exception("Los ids o la cantidad no pueden ser negativos!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad) 
                             VALUES (@idPresupuesto, @idProducto, @cantidad)";
@@ -162,7 +167,7 @@ public class PresupuestoRepository : IPresupuestoRepository
         if (idPresupuesto < 0)
             throw new Exception("El id no puede ser negativo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             conexion.Open();
 
@@ -188,7 +193,7 @@ public class PresupuestoRepository : IPresupuestoRepository
         if (modPresupuesto == null)
             throw new Exception("El presupuesto no puede ser nulo!");
             
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"UPDATE Presupuestos
                             SET idCliente = @idCliente, FechaCreacion = @fechaCreacion

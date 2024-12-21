@@ -2,14 +2,19 @@ using Microsoft.Data.Sqlite;
 
 public class ProductoRepository : IProductoRepository
 {
-    private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public ProductoRepository(string cadenaConexion)
+    {
+        _cadenaConexion = cadenaConexion;
+    }
 
     public void CrearProducto(Producto nuevoProducto)
     {
         if (nuevoProducto == null)
             throw new Exception("El producto no puede ser nulo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"INSERT INTO Productos (Descripcion, Precio) 
                             VALUES (@descripcion, @precio)";
@@ -33,7 +38,7 @@ public class ProductoRepository : IProductoRepository
         if (modProducto == null)
             throw new Exception("El producto no puede ser nulo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"UPDATE Productos
                             SET Descripcion = @descripcion, Precio = @precio
@@ -55,7 +60,7 @@ public class ProductoRepository : IProductoRepository
     {
         var listaProductos = new List<Producto>();
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = "SELECT * FROM Productos";
 
@@ -89,7 +94,7 @@ public class ProductoRepository : IProductoRepository
             throw new Exception("El id no puede ser negativo!");
 
         Producto producto = null;
-        using (SqliteConnection conexion = new SqliteConnection(cadenaConexion))
+        using (SqliteConnection conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"SELECT * FROM Productos 
                             WHERE idProducto = @id";
@@ -120,7 +125,7 @@ public class ProductoRepository : IProductoRepository
         if (id < 0)
             throw new Exception("El id no puede ser negativo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"DELETE FROM Productos 
                             WHERE idProducto = (@id)";

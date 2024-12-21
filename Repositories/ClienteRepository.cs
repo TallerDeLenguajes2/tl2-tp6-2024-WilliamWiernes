@@ -2,14 +2,19 @@ using Microsoft.Data.Sqlite;
 
 public class ClienteRepository : IClienteRepository
 {
-    private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public ClienteRepository(string cadenaConexion)
+    {
+        _cadenaConexion = cadenaConexion;
+    }
 
     public void CrearCliente(Cliente nuevoCliente)
     {
         if (nuevoCliente == null)
             throw new Exception("El cliente no puede ser nulo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"INSERT INTO Clientes (Nombre, Email, Telefono) 
                             VALUES (@nombre, @email, @telefono)";
@@ -34,7 +39,7 @@ public class ClienteRepository : IClienteRepository
         if (modCliente == null)
             throw new Exception("El cliente no puede ser nulo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"UPDATE Clientes
                             SET Nombre = @nombre, Email = @email, Telefono = @telefono
@@ -57,7 +62,7 @@ public class ClienteRepository : IClienteRepository
     {
         var listaClientes = new List<Cliente>();
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"SELECT * FROM Clientes";
 
@@ -92,7 +97,7 @@ public class ClienteRepository : IClienteRepository
             throw new Exception("El id no puede ser negativo!");
 
         Cliente cliente = null;
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"SELECT * FROM Clientes
                             WHERE idCliente = @id";
@@ -124,7 +129,7 @@ public class ClienteRepository : IClienteRepository
         if (id < 0)
             throw new Exception("El id no puede ser negativo!");
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"DELETE FROM Clientes
                             WHERE idCliente = @id";

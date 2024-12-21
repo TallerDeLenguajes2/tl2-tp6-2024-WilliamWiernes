@@ -2,13 +2,18 @@ using Microsoft.Data.Sqlite;
 
 public class UsuarioRepository : IUsuarioRepository
 {
-    private readonly string cadenaConexion = "Data Source=DataBase/Tienda.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public UsuarioRepository(string cadenaConexion)
+    {
+        _cadenaConexion = cadenaConexion;
+    }
 
     public UsuarioViewModel ObtenerUsuario(string nombreUsuario, string contraseña)
     {
         UsuarioViewModel usuario = null;
 
-        using (var conexion = new SqliteConnection(cadenaConexion))
+        using (var conexion = new SqliteConnection(_cadenaConexion))
         {
             var consulta = @"SELECT * FROM Usuarios 
                             WHERE NombreUsuario = @nombreUsuario 
