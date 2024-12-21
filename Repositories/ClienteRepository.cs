@@ -6,6 +6,9 @@ public class ClienteRepository : IClienteRepository
 
     public void CrearCliente(Cliente nuevoCliente)
     {
+        if (nuevoCliente == null)
+            throw new Exception("El cliente no puede ser nulo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"INSERT INTO Clientes (Nombre, Email, Telefono) 
@@ -25,6 +28,12 @@ public class ClienteRepository : IClienteRepository
 
     public void ModificarCliente(int id, Cliente modCliente)
     {
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
+        if (modCliente == null)
+            throw new Exception("El cliente no puede ser nulo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"UPDATE Clientes
@@ -71,12 +80,18 @@ public class ClienteRepository : IClienteRepository
             conexion.Close();
         }
 
+        if (listaClientes.Count == 0)
+            throw new Exception("No se encontraron clientes!");
+
         return listaClientes;
     }
 
     public Cliente ObtenerCliente(int id)
     {
-        Cliente cliente;
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
+        Cliente cliente = null;
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"SELECT * FROM Clientes
@@ -98,11 +113,17 @@ public class ClienteRepository : IClienteRepository
             conexion.Close();
         }
 
+        if (cliente == null)
+            throw new Exception($"El cliente con id {id} no fue encontrado!");
+
         return cliente;
     }
 
     public void Eliminar(int id)
     {
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"DELETE FROM Clientes

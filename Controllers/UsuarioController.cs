@@ -12,28 +12,48 @@ public class UsuarioController : Controller
     }
 
     public IActionResult FormularioLogin()
-    { 
+    {
         return View();
     }
 
     public IActionResult Login(string nombreUsuario, string contraseña)
     {
-        if(!ModelState.IsValid) return RedirectToAction("FormularioLogin");
+        try
+        {
+            if (!ModelState.IsValid) return RedirectToAction("FormularioLogin");
 
-        var usuario = _usuarioRepository.ObtenerUsuario(nombreUsuario, contraseña);
-        if(usuario == null) return RedirectToAction("FormularioLogin");
+            var usuario = _usuarioRepository.ObtenerUsuario(nombreUsuario, contraseña);
 
-        HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
-        HttpContext.Session.SetString("Rol", usuario.Rol.ToString());
+            HttpContext.Session.SetString("NombreUsuario", usuario.NombreUsuario);
+            HttpContext.Session.SetString("Rol", usuario.Rol.ToString());
 
-        return RedirectToAction("Listar", "Producto");
+            _logger.LogInformation("El usuario {NombreUsuario} ingresó correctamente!", usuario.NombreUsuario);
+
+            return RedirectToAction("Listar", "Producto");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Intento de acceso inválido - Usuario: {nombreUsuario} Clave ingresada: {contraseña}", nombreUsuario, contraseña);
+            _logger.LogError(ex.ToString());
+
+            return RedirectToAction("FormularioLogin");
+        }
     }
 
     public IActionResult Logout()
     {
-        Response.Cookies.Delete("AuthCookie");
-        HttpContext.Session.Clear();
-        
-        return RedirectToAction("FormularioLogin");
+        try
+        {
+            Response.Cookies.Delete("AuthCookie");
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("FormularioLogin");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 }

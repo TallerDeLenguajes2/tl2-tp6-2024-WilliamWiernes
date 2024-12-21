@@ -6,6 +6,9 @@ public class ProductoRepository : IProductoRepository
 
     public void CrearProducto(Producto nuevoProducto)
     {
+        if (nuevoProducto == null)
+            throw new Exception("El producto no puede ser nulo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"INSERT INTO Productos (Descripcion, Precio) 
@@ -24,6 +27,12 @@ public class ProductoRepository : IProductoRepository
 
     public void ModificarProducto(int id, Producto modProducto)
     {
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
+        if (modProducto == null)
+            throw new Exception("El producto no puede ser nulo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"UPDATE Productos
@@ -68,12 +77,18 @@ public class ProductoRepository : IProductoRepository
             conexion.Close();
         }
 
+        if (listaProductos.Count == 0)
+            throw new Exception("No se encontraron productos!");
+
         return listaProductos;
     }
 
     public Producto ObtenerDetalles(int id)
     {
-        Producto producto;
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
+        Producto producto = null;
         using (SqliteConnection conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"SELECT * FROM Productos 
@@ -94,11 +109,17 @@ public class ProductoRepository : IProductoRepository
             conexion.Close();
         }
 
+        if (producto == null)
+            throw new Exception($"El producto con id {id} no fue encontrado!");
+
         return producto;
     }
 
     public void EliminarProducto(int id)
     {
+        if (id < 0)
+            throw new Exception("El id no puede ser negativo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"DELETE FROM Productos 

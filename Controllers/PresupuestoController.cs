@@ -18,66 +18,147 @@ public class PresupuestoController : Controller
     [HttpGet]
     public IActionResult Listar()
     {
-        return View(_presupuestoRepository.ListarPresupuestos());
+        try
+        {
+            return View(_presupuestoRepository.ListarPresupuestos());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Crear()
     {
-        var listaClientesViewModel = new PresupuestoViewModel(_clienteRepository.Listar());
+        try
+        {
+            var listaClientesViewModel = new PresupuestoViewModel(_clienteRepository.Listar());
 
-        return View(listaClientesViewModel);
+            return View(listaClientesViewModel);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult Crear(int idCliente)
     {
-        var cliente = _clienteRepository.ObtenerCliente(idCliente);
-        var listaDetalles = new List<PresupuestoDetalle>();
-        var nuevoPresupuesto = new Presupuesto(1, cliente, DateTime.Now.ToString("yyyy-MM-dd"), listaDetalles);
+        try
+        {
+            var cliente = _clienteRepository.ObtenerCliente(idCliente);
+            var listaDetalles = new List<PresupuestoDetalle>();
+            var nuevoPresupuesto = new Presupuesto(1, cliente, DateTime.Now.ToString("yyyy-MM-dd"), listaDetalles);
 
-        _presupuestoRepository.CrearPresupuesto(nuevoPresupuesto);
-        return RedirectToAction("Listar");
+            _presupuestoRepository.CrearPresupuesto(nuevoPresupuesto);
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Modificar(int idPresupuesto)
     {
-        return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        try
+        {
+            return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult Modificar(Presupuesto modPresupuesto)
     {
-        _presupuestoRepository.ModificarPresupuesto(modPresupuesto.IdPresupuesto, modPresupuesto);
-        return RedirectToAction("Listar");
+        try
+        {
+            _presupuestoRepository.ModificarPresupuesto(modPresupuesto.IdPresupuesto, modPresupuesto);
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
-    
+
     [HttpGet]
     public IActionResult ModificarAgregarProducto(int idPresupuesto)
     {
-        var listaProductosViewModel = new ProductoAltaViewModel(idPresupuesto, _productoRepository.ListarProductos());
+        try
+        {
+            var listaProductosViewModel = new ProductoAltaViewModel(idPresupuesto, _productoRepository.ListarProductos());
 
-        return View(listaProductosViewModel);
+            return View(listaProductosViewModel);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult ModificarAgregarProducto(int idPresupuesto, int idProducto, int cantidad)
     {
-        _presupuestoRepository.AgregarPresupuestoDetalle(idPresupuesto, idProducto, cantidad);
-        return RedirectToAction("Listar");
+        try
+        {
+            _presupuestoRepository.AgregarPresupuestoDetalle(idPresupuesto, idProducto, cantidad);
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Eliminar(int idPresupuesto)
     {
-        return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        try
+        {
+            return View(_presupuestoRepository.ObtenerDetallesPresupuesto(idPresupuesto));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult EliminarPresupuesto(int idPresupuesto)
     {
-        _presupuestoRepository.EliminarPresupuesto(idPresupuesto);
-        return RedirectToAction("Listar");
+        try
+        {
+            _presupuestoRepository.EliminarPresupuesto(idPresupuesto);
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            return View("Error");
+        }
     }
 }

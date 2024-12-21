@@ -14,16 +14,25 @@ public class ProductoController : Controller
     [HttpGet]
     public IActionResult Listar()
     {
-        var listaProductos = _productoRepository.ListarProductos();
-        var listaProductosViewModel = new List<ProductoViewModel>();
-
-        foreach(var producto in listaProductos)
+        try
         {
-            var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
-            listaProductosViewModel.Add(productoViewModel);
+            var listaProductos = _productoRepository.ListarProductos();
+            var listaProductosViewModel = new List<ProductoViewModel>();
+
+            foreach (var producto in listaProductos)
+            {
+                var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
+                listaProductosViewModel.Add(productoViewModel);
+            }
+
+            return View(listaProductosViewModel);
         }
-        
-        return View(listaProductosViewModel);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
@@ -35,48 +44,93 @@ public class ProductoController : Controller
     [HttpPost]
     public IActionResult Crear(ProductoViewModel nuevoProductoViewModel)
     {
-        if(!ModelState.IsValid) return RedirectToAction("Listar");
+        try
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Listar");
 
-        var nuevoProducto = new Producto(0, nuevoProductoViewModel.Descripcion, nuevoProductoViewModel.Precio);
-        _productoRepository.CrearProducto(nuevoProducto);
+            var nuevoProducto = new Producto(0, nuevoProductoViewModel.Descripcion, nuevoProductoViewModel.Precio);
+            _productoRepository.CrearProducto(nuevoProducto);
 
-        return RedirectToAction("Listar");
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Modificar(int idProducto)
     {
-        var producto = _productoRepository.ObtenerDetalles(idProducto); 
-        var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
-        
-        return View(productoViewModel);
+        try
+        {
+            var producto = _productoRepository.ObtenerDetalles(idProducto);
+            var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
+
+            return View(productoViewModel);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult Modificar(ProductoViewModel modProductoViewModel)
     {
-        if(!ModelState.IsValid) return RedirectToAction("Listar");
+        try
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Listar");
 
-        var modProducto = new Producto(modProductoViewModel.IdProducto, modProductoViewModel.Descripcion, modProductoViewModel.Precio);
-        _productoRepository.ModificarProducto(modProducto.IdProducto, modProducto);
+            var modProducto = new Producto(modProductoViewModel.IdProducto, modProductoViewModel.Descripcion, modProductoViewModel.Precio);
+            _productoRepository.ModificarProducto(modProducto.IdProducto, modProducto);
 
-        return RedirectToAction("Listar");
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 
     [HttpGet]
     public IActionResult Eliminar(int idProducto)
     {
-        var producto = _productoRepository.ObtenerDetalles(idProducto);
-        var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
+        try
+        {
+            var producto = _productoRepository.ObtenerDetalles(idProducto);
+            var productoViewModel = new ProductoViewModel(producto.IdProducto, producto.Descripcion, producto.Precio);
 
-        return View(productoViewModel);
+            return View(productoViewModel);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 
     [HttpPost]
     public IActionResult EliminarProducto(int idProducto)
     {
-        _productoRepository.EliminarProducto(idProducto);
+        try
+        {
+            _productoRepository.EliminarProducto(idProducto);
 
-        return RedirectToAction("Listar");
+            return RedirectToAction("Listar");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+
+            return View("Error");
+        }
     }
 }

@@ -6,6 +6,9 @@ public class PresupuestoRepository : IPresupuestoRepository
 
     public void CrearPresupuesto(Presupuesto nuevoPresupuesto)
     {
+        if (nuevoPresupuesto == null)
+            throw new Exception("El presupuesto no puede ser nulo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"INSERT INTO Presupuestos (idCliente, FechaCreacion) 
@@ -46,11 +49,17 @@ public class PresupuestoRepository : IPresupuestoRepository
             conexion.Close();
         }
 
+        if (listaPresupuestos.Count == 0)
+            throw new Exception("No se encontraron presupuestos");
+
         return listaPresupuestos;
     }
 
     public Presupuesto ObtenerDetallesPresupuesto(int idPresupuesto)
     {
+        if (idPresupuesto < 0)
+            throw new Exception("El id no puede ser negativo!");
+
         Presupuesto presupuesto = null;
         Cliente cliente = null;
 
@@ -116,12 +125,18 @@ public class PresupuestoRepository : IPresupuestoRepository
         {
             presupuesto.ListaDetalles = new List<PresupuestoDetalle>();
         }
+
+        if (presupuesto == null)
+            throw new Exception($"El presupuesto con id {idPresupuesto} no fue encontrado!");
         
         return presupuesto;
     }
 
     public void AgregarPresupuestoDetalle(int idPresupuesto, int idProducto, int cantidad)
     {
+        if (idPresupuesto < 0 || idProducto < 0 || cantidad < 0)
+            throw new Exception("Los ids o la cantidad no pueden ser negativos!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad) 
@@ -144,6 +159,9 @@ public class PresupuestoRepository : IPresupuestoRepository
 
     public void EliminarPresupuesto(int idPresupuesto)
     {
+        if (idPresupuesto < 0)
+            throw new Exception("El id no puede ser negativo!");
+
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             conexion.Open();
@@ -164,6 +182,12 @@ public class PresupuestoRepository : IPresupuestoRepository
 
     public void ModificarPresupuesto(int idPresupuesto, Presupuesto modPresupuesto)
     {
+        if (idPresupuesto < 0)
+            throw new Exception("El id no puede ser negativo!");
+        
+        if (modPresupuesto == null)
+            throw new Exception("El presupuesto no puede ser nulo!");
+            
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
             var consulta = @"UPDATE Presupuestos

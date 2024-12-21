@@ -6,7 +6,7 @@ public class UsuarioRepository : IUsuarioRepository
 
     public UsuarioViewModel ObtenerUsuario(string nombreUsuario, string contraseña)
     {
-        var usuario = new UsuarioViewModel();
+        UsuarioViewModel usuario = null;
 
         using (var conexion = new SqliteConnection(cadenaConexion))
         {
@@ -35,6 +35,9 @@ public class UsuarioRepository : IUsuarioRepository
 
             conexion.Close();
         }
+
+        if (usuario == null)
+            throw new Exception("El usuario no fue encontrado!");
 
         return usuario;
     }
